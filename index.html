@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trachten der Welt – Kunstwettbewerb</title>
+<meta name="description" content="Kunstwettbewerb: Traditionelle Trachten aus den Niederlanden, Rumänien, Polen, Bayern, Japan und Syrien.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #12141c;
+    --bg-soft: #1a1d29;
+    --ink: #f3efe8;
+    --ink-soft: #a9a8b3;
+    --line: #2b2f40;
+    --display: "Playfair Display", Georgia, serif;
+    --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+
+  /* Navigation */
+  .nav {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(18, 20, 28, .88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    padding: 12px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .brand { font-family: var(--display); font-weight: 700; font-size: 1.1rem; letter-spacing: .02em; text-decoration: none; }
+  .nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; }
+  .nav a.dot {
+    display: grid; place-items: center;
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--line);
+    text-decoration: none; font-weight: 600; font-size: .9rem;
+    transition: background .2s, color .2s, border-color .2s, transform .2s;
+  }
+  .nav a.dot:hover, .nav a.dot:focus-visible { background: var(--ink); color: var(--bg); border-color: var(--ink); transform: translateY(-2px); outline: none; }
+
+  /* Hero */
+  .hero {
+    position: relative; overflow: hidden;
+    padding: clamp(64px, 12vw, 140px) 20px clamp(56px, 9vw, 110px);
+    text-align: center;
+    background:
+      radial-gradient(60% 80% at 15% 10%, rgba(232, 93, 4, .22), transparent 60%),
+      radial-gradient(60% 80% at 85% 20%, rgba(43, 89, 195, .25), transparent 60%),
+      radial-gradient(70% 70% at 50% 110%, rgba(200, 30, 60, .22), transparent 60%),
+      var(--bg);
+  }
+  .eyebrow { text-transform: uppercase; letter-spacing: .28em; font-size: .78rem; color: var(--ink-soft); margin: 0 0 18px; }
+  .hero h1 {
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(2.6rem, 8vw, 5.6rem); line-height: 1.05;
+    margin: 0 auto 22px; max-width: 14ch; text-wrap: balance;
+  }
+  .hero h1 em { font-style: italic; font-weight: 500; }
+  .hero p.lead { max-width: 56ch; margin: 0 auto 34px; color: var(--ink-soft); font-size: 1.05rem; }
+  .flags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 0; margin: 0; list-style: none; }
+  .flags a {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 9px 16px 9px 10px; border-radius: 999px;
+    border: 1px solid var(--line); background: rgba(255,255,255,.03);
+    text-decoration: none; font-size: .92rem;
+    transition: border-color .2s, background .2s, transform .2s;
+  }
+  .flags a:hover, .flags a:focus-visible { border-color: var(--c); background: rgba(255,255,255,.07); transform: translateY(-2px); outline: none; }
+  .flags b {
+    display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--c); color: #fff; font-size: .8rem;
+  }
+
+  /* Country sections */
+  main { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+  .country {
+    --c: #fff;
+    display: grid; grid-template-columns: 1fr; gap: 36px;
+    padding: clamp(56px, 8vw, 104px) 0;
+    border-bottom: 1px solid var(--line);
+    align-items: center;
+  }
+  .country:last-of-type { border-bottom: 0; }
+  @media (min-width: 860px) {
+    .country { grid-template-columns: 1.05fr 1fr; gap: 72px; }
+    .country:nth-of-type(even) .frame-wrap { order: 2; }
+  }
+
+  .frame-wrap { position: relative; padding: 0 14px 14px 0; min-width: 0; }
+  .country:nth-of-type(even) .frame-wrap { padding: 0 0 14px 14px; }
+  .frame-wrap::before {
+    content: ""; position: absolute; inset: 14px 0 0 14px;
+    border: 2px solid var(--c); border-radius: 6px; opacity: .85;
+  }
+  .country:nth-of-type(even) .frame-wrap::before { inset: 14px 14px 0 0; }
+  .frame {
+    position: relative; z-index: 1;
+    aspect-ratio: var(--ratio, 3 / 4); width: 100%; overflow: hidden;
+    background: var(--bg-soft); border-radius: 4px;
+    box-shadow: 0 24px 60px rgba(0,0,0,.45);
+  }
+  .frame img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s ease; }
+  .frame:hover img { transform: scale(1.04); }
+  .frame .placeholder {
+    display: none; position: absolute; inset: 0;
+    place-items: center; text-align: center; padding: 24px;
+    color: var(--ink-soft); font-size: .9rem;
+    background: repeating-linear-gradient(135deg, var(--bg-soft) 0 18px, #1e2232 18px 36px);
+  }
+  .frame.missing img { display: none; }
+  .frame.missing .placeholder { display: grid; }
+  .placeholder strong { display: block; font-family: var(--display); font-size: 4rem; color: var(--c); line-height: 1; margin-bottom: 8px; }
+
+  .badge {
+    position: absolute; z-index: 2; top: 16px; left: 16px;
+    width: 52px; height: 52px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--c); color: #fff;
+    font-family: var(--display); font-weight: 700; font-size: 1.5rem;
+    box-shadow: 0 6px 18px rgba(0,0,0,.4);
+  }
+
+  .text { min-width: 0; }
+  .num {
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(5rem, 14vw, 9rem); line-height: .85;
+    color: transparent; -webkit-text-stroke: 2px var(--c);
+    margin: 0 0 8px;
+  }
+  .country h2 { font-family: var(--display); font-weight: 700; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.1; margin: 0 0 6px; }
+  .tag { text-transform: uppercase; letter-spacing: .2em; font-size: .75rem; color: var(--c); font-weight: 600; margin: 0 0 20px; }
+  .text p { color: var(--ink-soft); margin: 0 0 20px; max-width: 52ch; }
+  .facts { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .facts li { border: 1px solid var(--line); padding: 5px 12px; border-radius: 999px; font-size: .82rem; }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--line); background: var(--bg-soft); margin-top: 20px; }
+  .foot-inner {
+    max-width: 1200px; margin: 0 auto; padding: 36px 20px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+    color: var(--ink-soft); font-size: .9rem;
+  }
+  .foot-inner strong { color: var(--ink); font-family: var(--display); font-size: 1.05rem; }
+  .foot-inner a { text-decoration: none; border-bottom: 1px solid var(--line); transition: color .2s, border-color .2s; }
+  .foot-inner a:hover, .foot-inner a:focus-visible { color: var(--ink); border-color: var(--ink); outline: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Länder">
+  <div class="nav-inner">
+    <a class="brand" href="#top">Trachten der Welt</a>
+    <ul>
+      <li><a class="dot" href="#niederlande" aria-label="1 Niederlande">1</a></li>
+      <li><a class="dot" href="#rumaenien" aria-label="2 Rumänien">2</a></li>
+      <li><a class="dot" href="#polen" aria-label="3 Polen">3</a></li>
+      <li><a class="dot" href="#bayern" aria-label="4 Bayern">4</a></li>
+      <li><a class="dot" href="#japan" aria-label="5 Japan">5</a></li>
+      <li><a class="dot" href="#syrien" aria-label="6 Syrien">6</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <p class="eyebrow">Kunstwettbewerb</p>
+  <h1>Trachten <em>der</em> Welt</h1>
+  <p class="lead">Sechs Länder, sechs Traditionen. Entdecke Stoffe, Farben und Stickereien, die über Generationen weitergegeben wurden.</p>
+  <ul class="flags">
+    <li><a href="#niederlande" style="--c:#e8590c"><b>1</b>Niederlande</a></li>
+    <li><a href="#rumaenien" style="--c:#d6a100"><b>2</b>Rumänien</a></li>
+    <li><a href="#polen" style="--c:#c8243c"><b>3</b>Polen</a></li>
+    <li><a href="#bayern" style="--c:#2b6fd6"><b>4</b>Bayern</a></li>
+    <li><a href="#japan" style="--c:#d93b4a"><b>5</b>Japan</a></li>
+    <li><a href="#syrien" style="--c:#2f9e6f"><b>6</b>Syrien</a></li>
+  </ul>
+</header>
+
+<main>
+
+  <!-- 1 Niederlande -->
+  <section class="country" id="niederlande" style="--c:#e8590c">
+    <div class="frame-wrap">
+      <div class="badge">1</div>
+      <div class="frame">
+        <img src="1.jpg" data-n="1" alt="Traditionelle Tracht aus den Niederlanden" loading="lazy">
+        <div class="placeholder"><div><strong>1</strong>1.jpg</div></div>
+      </div>
+    </div>
+    <div class="text">
+      <p class="num" aria-hidden="true">1</p>
+      <h2>Niederlande</h2>
+      <p class="tag">Volendam · Marken · Zeeland</p>
+      <p>Die niederländische Tracht unterscheidet sich von Region zu Region. Berühmt sind die weißen Spitzenhauben, die gestreiften Röcke und die Holzschuhe, die sogenannten Klompen.</p>
+      <ul class="facts"><li>Spitzenhaube</li><li>Holzschuhe</li><li>Gestreifte Röcke</li></ul>
+    </div>
+  </section>
+
+  <!-- 2 Rumänien -->
+  <section class="country" id="rumaenien" style="--c:#d6a100; --ratio: 2228 / 1553">
+    <div class="frame-wrap">
+      <div class="badge">2</div>
+      <div class="frame">
+        <img src="2.jpg" data-n="2" alt="Traditionelle Tracht aus Rumänien" loading="lazy">
+        <div class="placeholder"><div><strong>2</strong>2.jpg</div></div>
+      </div>
+    </div>
+    <div class="text">
+      <p class="num" aria-hidden="true">2</p>
+      <h2>Rumänien</h2>
+      <p class="tag">Die Ie · Karpaten · Maramureș</p>
+      <p>Herzstück der rumänischen Tracht ist die Ie, eine handbestickte Bluse. Jedes Muster hat seine Bedeutung und verrät oft die Herkunft der Trägerin.</p>
+      <ul class="facts"><li>Handstickerei</li><li>Ie-Bluse</li><li>Bunte Schürzen</li></ul>
+    </div>
+  </section>
+
+  <!-- 3 Polen -->
+  <section class="country" id="polen" style="--c:#c8243c; --ratio: 1920 / 1275">
+    <div class="frame-wrap">
+      <div class="badge">3</div>
+      <div class="frame">
+        <img src="3.jpg" data-n="3" alt="Traditionelle Tracht aus Polen" loading="lazy">
+        <div class="placeholder"><div><strong>3</strong>3.jpg</div></div>
+      </div>
+    </div>
+    <div class="text">
+      <p class="num" aria-hidden="true">3</p>
+      <h2>Polen</h2>
+      <p class="tag">Krakau · Łowicz · Podhale</p>
+      <p>Besonders bekannt ist die Krakauer Tracht mit farbigen Bändern, Blumenstickerei und der Rogatywka, einer Mütze, die mit Pfauenfedern geschmückt wird.</p>
+      <ul class="facts"><li>Farbige Bänder</li><li>Blumenstickerei</li><li>Pfauenfedern</li></ul>
+    </div>
+  </section>
+
+  <!-- 4 Bayern -->
+  <section class="country" id="bayern" style="--c:#2b6fd6; --ratio: 563 / 685">
+    <div class="frame-wrap">
+      <div class="badge">4</div>
+      <div class="frame">
+        <img src="4.jpg" data-n="4" alt="Traditionelle Tracht aus Bayern" loading="lazy">
+        <div class="placeholder"><div><strong>4</strong>4.jpg</div></div>
+      </div>
+    </div>
+    <div class="text">
+      <p class="num" aria-hidden="true">4</p>
+      <h2>Bayern</h2>
+      <p class="tag">Deutschland · Oberbayern · Allgäu</p>
+      <p>Dirndl und Lederhose gehören zu den bekanntesten Trachten Europas. Schürze, Mieder und Trachtenhut zeigen je nach Tal und Region eigene Details.</p>
+      <ul class="facts"><li>Dirndl</li><li>Lederhose</li><li>Trachtenhut</li></ul>
+    </div>
+  </section>
+
+  <!-- 5 Japan -->
+  <section class="country" id="japan" style="--c:#d93b4a; --ratio: 1818 / 1022">
+    <div class="frame-wrap">
+      <div class="badge">5</div>
+      <div class="frame">
+        <img src="5.jpg" data-n="5" alt="Traditionelle Tracht aus Japan" loading="lazy">
+        <div class="placeholder"><div><strong>5</strong>5.jpg</div></div>
+      </div>
+    </div>
+    <div class="text">
+      <p class="num" aria-hidden="true">5</p>
+      <h2>Japan</h2>
+      <p class="tag">Kimono · Yukata · Obi</p>
+      <p>Der Kimono ist das bekannteste Kleidungsstück Japans. Stoffe, Muster und die Art, den Obi zu binden, passen zu Jahreszeit, Anlass und Alter der Trägerin.</p>
+      <ul class="facts"><li>Kimono</li><li>Obi-Gürtel</li><li>Seidenmuster</li></ul>
+    </div>
+  </section>
+
+  <!-- 6 Syrien -->
+  <section class="country" id="syrien" style="--c:#2f9e6f; --ratio: 224 / 223">
+    <div class="frame-wrap">
+      <div class="badge">6</div>
+      <div class="frame">
+        <img src="6.jpg" data-n="6" alt="Traditionelle Tracht aus Syrien" loading="lazy">
+        <div class="placeholder"><div><strong>6</strong>6.jpg</div></div>
+      </div>
+    </div>
+    <div class="text">
+      <p class="num" aria-hidden="true">6</p>
+      <h2>Syrien</h2>
+      <p class="tag">Damaskus · Aleppo · Badia</p>
+      <p>Die syrische Kleidung unterscheidet sich zwischen Stadt, Küste und Wüste. Typisch sind weite Gewänder, Kopftücher oder Turbane, gestreifte Umhänge und aufwendige Stickereien.</p>
+      <ul class="facts"><li>Kufiya &amp; Turban</li><li>Gestreifter Umhang</li><li>Weite Hosen</li></ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <strong>Web Craft GmbH</strong>
+    <span>© 2026 Web Craft GmbH · <a href="https://redcraft.me" target="_blank" rel="noopener">redcraft.me</a></span>
+  </div>
+</footer>
+
+<script>
+  // Lädt 1 bis 5 und probiert gängige Dateiendungen, falls .jpg nicht passt.
+  (function () {
+    var exts = ["jpg", "jpeg", "png", "webp", "avif"];
+    function next(img) {
+      var i = (+img.dataset.i || 0) + 1;
+      if (i < exts.length) {
+        img.dataset.i = i;
+        img.src = "" + img.dataset.n + "." + exts[i];
+      } else {
+        img.closest(".frame").classList.add("missing");
+      }
+    }
+    document.querySelectorAll("img[data-n]").forEach(function (img) {
+      img.addEventListener("error", function () { next(img); });
+      if (img.complete && img.naturalWidth === 0) next(img);
+    });
+  })();
+</script>
+</body>
+</html>
